@@ -28,10 +28,10 @@ solve input =
     in (toInt gamma) * (toInt epsilon)
 
 solve2 :: [String] -> Int
-solve2 input = 
-    let 
-        oxygen = findBy (\pos -> if length (filter (== '1') pos) >= length (filter (== '0') pos) then '1' else '0') input
-        co2 = findBy (\pos -> if length (filter (== '0') pos) <= length (filter (== '1') pos) then '0' else '1') input
+solve2 input = let
+        f = \c1 c2 pos -> (if length (filter (== '0') pos) <= length (filter (== '1') pos) then c1 else c2)
+        oxygen = findBy (f '1' '0') input
+        co2 =    findBy (f '0' '1') input
     in (toInt oxygen) * (toInt co2)
 
 findBy :: (String -> Char) -> [String] -> String
