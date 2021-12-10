@@ -21,7 +21,7 @@ score2 :: String -> Int
 score2 = (score2' . reverse)
     where
         score2' [] = 0 
-        score2' (c:cs) = 5 * (score2' cs) + (fromJust $ lookup c $ zip ")]}>" [1..])
+        score2' (c:cs) = 5 * score2' cs + (fromJust $ lookup c $ zip ")]}>" [1..])
 
 score :: Char -> Int
 score c = fromJust $ lookup c $ zip ")]}>" [3, 57, 1197, 25137]
