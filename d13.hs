@@ -13,7 +13,7 @@ main = do
     let coords = S.fromList $ map (\s -> let (c1:c2:[]) = splitOn "," s in (read c1, read c2)) $ splitOn "\n" i1
     let folds = map parseFold $ filter (/= "") $ splitOn "\n" i2
     print $ S.size $ fold coords $ head folds
-    putStrLn $ toString $ foldl fold coords folds
+    putStr $ toString $ foldl fold coords folds
 
 fold :: S.Set Coord -> Fold -> S.Set Coord
 fold coords f = S.map (fold' f) coords
