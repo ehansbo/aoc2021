@@ -1,7 +1,7 @@
 import DayZero
 import qualified Data.PQueue.Min as Q
 import qualified Data.Set as S
-import Control.Monad.State
+import Control.Monad.State.Lazy
 
 type Coord = (Int, Int)
 type QState = State ((Q.MinQueue (Int, Coord)), S.Set Coord)
@@ -51,7 +51,7 @@ addVisited coords = do
     put (queue, visited')
 
 getNeighbors :: Coord -> Coord -> [Coord]
-getNeighbors (x, y) (maxX, maxY)= filter (\(x', y') -> x' <= maxX && y' <= maxY) [(x+1, y), (x, y+1)]
+getNeighbors (x, y) (maxX, maxY)= filter (\(x', y') -> x' <= maxX && y' <= maxY && x' >= 0 && y' >= 0) [(x+1, y), (x, y+1), (x-1, y), (x, y-1)]
 
 pop :: QState (Int, Coord)
 pop = do
