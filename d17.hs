@@ -14,10 +14,10 @@ main = do
     print $ solve2 target
 
 solve2 :: Area -> Int
-solve2 area = length $ mapMaybe (solveForVelocity area) [(x', y') | x' <- [0..100], y' <- [-200..1000]]
+solve2 area = length $ mapMaybe (solveForVelocity area) [(x', y') | x' <- [0..(maxX area)], y' <- [minY area..(-(minY area))]]
 
 solve :: Area -> Int
-solve area = maximum $ mapMaybe (solveForVelocity area) [(x', y') | x' <- [0..100], y' <- [0..1000]]
+solve area = maximum $ mapMaybe (solveForVelocity area) [(x', y') | x' <- [0..(maxX area)], y' <- [0..(-(minY area))]]
 
 solveForVelocity :: Area -> Velocity -> Maybe Int
 solveForVelocity a v = solveForVelocity' v (0, 0) 0
