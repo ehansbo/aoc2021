@@ -36,10 +36,12 @@ solve (curr@(Oriented i c beacons):currs) others =
         in curr : solve (currs ++ chosens) (removeAll chosens others)
 
 getCandidates :: Scanner -> [Scanner] -> [Scanner]
-getCandidates curr@(Oriented i c beacons) others = filter isCandidate (concatMap rotate others)
-    where isCandidate scanner = 
-            let l = (length $ uniq $ concatMap ((\(a, b) -> [a,b]) . snd) $ intersectBy (\a b -> fst a == fst b) (pairs scanner) (pairs curr))
-            in l >= 10 -- Why 10? No idea. 12 doesn't work.
+getCandidates curr@(Oriented i c beacons) others = 
+    let p = pairs curr
+    in filter (isCandidate p) (concatMap rotate others)
+        where isCandidate p scanner = 
+                let l = (length $ intersectBy (\a b -> fst a == fst b) (pairs scanner) p)
+                in l >= 12 
 
 orient :: Scanner -> Scanner
 orient sc = Oriented (getId sc) (0, 0, 0) (getBeacons sc)
