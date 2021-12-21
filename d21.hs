@@ -38,22 +38,13 @@ run2 p1 p2 playerOneTurn
         case maybeScore of
             (Just n) -> return n
             Nothing -> do
-                if playerOneTurn 
-                    then do
-                        let nextRun i = run2 (roll2 p1 i) p2 $ not playerOneTurn
-                        ss <- mapM nextRun [3..9]
-                        let s n = ss !! n
-                        let tot = ((s 0) +! ((s 1)*!3) +! ((s 2) *! 6) +! ((s 3) *! 7) +! ((s 4) *! 6) +! ((s 5) *! 3) +! (s 6))
-                        cache p1 p2 playerOneTurn tot
-                        return tot
-                    else do
-                        let nextRun i = run2 p1 (roll2 p2 i) $ not playerOneTurn
-                        ss <- mapM nextRun [3..9]
-                        let s n = ss !! n
-                        let tot = ((s 0) +! ((s 1)*!3) +! ((s 2) *! 6) +! ((s 3) *! 7) +! ((s 4) *! 6) +! ((s 5) *! 3) +! (s 6))
-                        cache p1 p2 playerOneTurn tot
-                        return tot
-
+                let nextRun i = if playerOneTurn then run2 (roll2 p1 i) p2 $ not playerOneTurn else run2 p1 (roll2 p2 i) $ not playerOneTurn
+                ss <- mapM nextRun [3..9]
+                let s n = ss !! n
+                let tot = ((s 0) +! ((s 1)*!3) +! ((s 2) *! 6) +! ((s 3) *! 7) +! ((s 4) *! 6) +! ((s 5) *! 3) +! (s 6))
+                cache p1 p2 playerOneTurn tot
+                return tot
+                
 roll2 :: Player -> Integer -> Player
 roll2 (Player score pos) d = 
     let newPos = (pos + d - 1) `mod` 10 + 1
