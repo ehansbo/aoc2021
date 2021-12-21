@@ -29,6 +29,9 @@ main = do
 (*!) :: (Integer, Integer) -> Integer -> (Integer, Integer)
 (*!) (x, y) n = (x*n, y*n)
 
+infixr 1 +!
+infixr 2 *!
+
 run2 :: Player -> Player -> Bool -> Game2 (Integer, Integer)
 run2 p1 p2 playerOneTurn
     | getScore p1 >= 21 = return (1, 0)
@@ -41,7 +44,7 @@ run2 p1 p2 playerOneTurn
                 let nextRun i = if playerOneTurn then run2 (roll2 p1 i) p2 $ not playerOneTurn else run2 p1 (roll2 p2 i) $ not playerOneTurn
                 ss <- mapM nextRun [3..9]
                 let s n = ss !! n
-                let tot = ((s 0) +! ((s 1)*!3) +! ((s 2) *! 6) +! ((s 3) *! 7) +! ((s 4) *! 6) +! ((s 5) *! 3) +! (s 6))
+                let tot = s 0 +! s 1 *! 3 +! s 2 *! 6 +! s 3 *! 7 +! s 4 *! 6 +! s 5 *! 3 +! s 6
                 cache p1 p2 playerOneTurn tot
                 return tot
                 
